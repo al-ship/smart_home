@@ -1,10 +1,12 @@
 #!/usr/bin/env python
-
+# -*- coding: utf-8 -*- 
 from smart_home_core.srv import *
 import rospy
 import os
 import inspect
 import modules.basemodule
+from smart_home_core.msg import Notification
+import uuid
 
 plugin_dir = "modules"
 _modules = {}
@@ -31,12 +33,13 @@ def command_server():
    
    #test
    #Command.command = 'say weather asdf'
-  # print handle_command(Command).response
-  # return ''
-
+   #print handle_command(Command).response
+   #return ''
+   global pub
+   pub = rospy.Publisher('notification', Notification)
    rospy.init_node('command_server')
    s = rospy.Service('command', Command, handle_command)
-   print "Command enterpreter ready."
+   pub.publish(Notification(str(uuid.uuid1()), "Командный интерпретатор запущен.", 0, "voice,log", "", ()))
    rospy.spin()
 
 def handle_command(req):
@@ -52,7 +55,8 @@ def handle_command(req):
          response = _modules[module].exec_cmd(params)
       else:
          response = 'no module with name "%s" found' % module
-	#TODO
+      pub.publish(Notification(str(uuid.uuid1()), response, 0, "voice","", ()))
+  #TODO
 
    return CommandResponse(response)
 
