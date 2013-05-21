@@ -1,0 +1,22 @@
+<package>
+   <name>smart_home</name>
+   <version>0.0.0</version>
+   <description>
+       Home automation powered by ROS
+   </description>
+   <maintainer email="chaosal@yandex.ru">Aleksey Shipulya</maintainer>
+   <author>Aleksey Shipulya</author>
+   <license>BSD</license>  
+   <url type="website"></url>
+   <url type="repository">https://github.com/chaosal/smart_home</url>
+   <url type="bugtracker">https://github.com/chaosal/smart_home/issues</url>
+   <buildtool_depend>catkin</buildtool_depend>
+   <run_depend>audio_capture</run_depend>
+   <run_depend>audio_common_msgs</run_depend>
+   <run_depend>audio_play</run_depend>
+   <run_depend>sound_play</run_depend>
+   <run_depend>pocketsphinx</run_depend>
+   <export>
+       <metapackage/>
+   </export>
+</package>
