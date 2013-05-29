@@ -3,6 +3,7 @@
 
 import rospi
 import json
+import codecs
 from std_msgs.msg import String
 from smart_home_core.srv import *
 from smart_home_core.msg import Notification
@@ -13,7 +14,7 @@ class recognizer(object):
         self.name = 'железяка'
         try:
 	   dic_file_path  = rospy.get_param('~dictionary')
-	   dic_file = open(dic_file_path, r)
+	   dic_file = codecs.open(dic_file_path, 'r', 'utf-8')
 	   self.dictionary = json.load(dic_file)
 	   dic_file.close()
 	except:
@@ -28,13 +29,12 @@ class recognizer(object):
         pub = rospy.Publisher('notification', Notification)
 	pub.publish(Notification(str(uuid.uuid1()), "Модуль распознавания речи запущен.", 0, "voice,log", "", ()))
 
-    def translate(self, lst)
-        result = ()
-	for word in lst:
-           for (transl, keywords) in self.dictionary.iteritems():
-               for keyword in keywords:
-	           if word.find(keyword) > -1:
-		       result.add(transl)
+    def translate(self, msg)
+        result = msg
+	for (transl, keywords) in self.dictionary.iteritems():
+            for keyword in keywords:
+	        if msg.find(keyword) > -1:
+		    result = result.replace(keyword, transl)		    
         return result
 
     def on_speech(self, msg):
@@ -44,8 +44,7 @@ class recognizer(object):
 	    # string after name
 	    st = msg.data[start + len(self.name):]
 	    #translate it, using dictionary
-	    words = self.translate(st.split(' '))
-	    st = words.split(' ')
+	    st = translate(self, st.strip())
 	    try:
 	        command = rospy.ServiceProxy('command', Command)
 		resp1 = command(st)		    
