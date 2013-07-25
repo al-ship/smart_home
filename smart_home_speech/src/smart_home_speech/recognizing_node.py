@@ -61,21 +61,26 @@ class recognizer(object):
 	        print "Service call failed: %s"%e
     
     def recognizing(self):
-        rec_args = 'sox -r 16000 -t alsa default recording.flac silence 1 0.1 1% 1 1.5 1%'
-	google_args = shlex.split('wget -q -U "Mozilla/5.0" --post-file recording.flac --header="Content-Type: audio/x-flac; rate=16000" -O - "http://www.google.com/speech-api/v1/recognize?lang=ru-ru&client=chromium"')
+	google_args = shlex.split('wget -q -U "Mozilla/5.0" --post-file recording.flac --header="Content-Type: audio/x-flac; rate=16000" -O - "http://www.google.com/speech-api/v1/recognize?lang=ru-RU&client=chromium"')
 	# rec sound
 	try:
-	    os.system(rec_args)
+	    os.system('sox -t alsa default recording.wav silence 1 0.1 1% 1 1.5 1%')
+	    os.system('sox recording.wav recording.flac rate 16000')
             #subprocess.call(rec_args)
 	except:
 	    rospy.logerr('error recording sound')
-	# recognizing
+	print 'recognizing'
 	output,error = subprocess.Popen(google_args,stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()
         if not error and len(output)>16:
 	    a = eval(output)
 	    text = String(a['hypotheses'][0]['utterance'])
-            #print text
+            print 'recognized: ' + text
             return text
+	else:
+	    if error:
+	        print 'error recognizing: ' + error
+	    else:
+	        print 'not recognized: ' + output
 
 if __name__=="__main__":
     rospy.init_node('recognizing_node')
