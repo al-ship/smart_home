@@ -5,6 +5,7 @@ from smart_home_core.msg import Notification
 from std_msgs.msg import String
 
 def callback(notification):
+    print notification.destination
     if 'log' in notification.destination:
         if notification.level == 0:
 	    rospy.loginfo(notification.text)
@@ -17,7 +18,8 @@ def callback(notification):
 	    
     if 'voice' in notification.destination:
     #todo check current voice notification level        
-	pub.publish(String(notification.text))
+	print notification.text
+        pub.publish(String(notification.text))
 
     if 'mail' in notification.destination:
     #todo
@@ -38,6 +40,8 @@ def notification_node():
 
     rospy.init_node('notification_node', anonymous=True)
     rospy.Subscriber("notification", Notification, callback)
+    print 'notification started'
+    pub.publish('модуль уведомлений запущен')
     rospy.spin()
 
 if __name__ == '__main__':

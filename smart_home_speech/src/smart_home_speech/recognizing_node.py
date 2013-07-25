@@ -53,7 +53,7 @@ class recognizer(object):
 	    # string after name
 	    st = msg.data[start + len(self.name):]
 	    #translate it, using dictionary
-	    st = translate(self, st.strip())
+	    st = self.translate(st.strip())
 	    try:
 	        command = rospy.ServiceProxy('command', Command)
 		resp1 = command(st)		    
@@ -64,7 +64,7 @@ class recognizer(object):
 	google_args = shlex.split('wget -q -U "Mozilla/5.0" --post-file recording.flac --header="Content-Type: audio/x-flac; rate=16000" -O - "http://www.google.com/speech-api/v1/recognize?lang=ru-RU&client=chromium"')
 	# rec sound
 	try:
-	    os.system('sox -t alsa default recording.wav silence 1 0.1 1% 1 1.5 1%')
+	    os.system('sox -t alsa default recording.wav silence 1 0.1 10% 1 1.5 10%')
 	    os.system('sox recording.wav recording.flac rate 16000')
             #subprocess.call(rec_args)
 	except:
@@ -74,7 +74,7 @@ class recognizer(object):
         if not error and len(output)>16:
 	    a = eval(output)
 	    text = String(a['hypotheses'][0]['utterance'])
-            print 'recognized: ' + text
+            print text
             return text
 	else:
 	    if error:
