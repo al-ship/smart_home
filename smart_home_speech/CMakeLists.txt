@@ -47,12 +47,12 @@ catkin_python_setup()
 ## LIBRARIES: libraries you create in this project that dependent projects also need
 ## CATKIN_DEPENDS: catkin_packages dependent projects also need
 ## DEPENDS: system dependencies of this project that dependent projects also need
-#catkin_package(
+catkin_package(
 #   INCLUDE_DIRS include
 #  LIBRARIES smart_home_speech
 #  CATKIN_DEPENDS audio_common roscpp rospy smart_home_core std_msgs
-#  DEPENDS system_lib
-#)
+  DEPENDS system_lib
+)
 
 ###########
 ## Build ##
@@ -110,11 +110,10 @@ catkin_python_setup()
 # )
 
 ## Mark other files for installation (e.g. launch and bag files, etc.)
-# install(FILES
-#   # myfile1
-#   # myfile2
-#   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
-# )
+ install(DIRECTORY
+   share/
+   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
+ )
 
 #############
 ## Testing ##

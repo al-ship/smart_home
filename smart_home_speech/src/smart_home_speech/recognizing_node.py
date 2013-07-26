@@ -14,7 +14,11 @@ class recognizer(object):
 
     def __init__(self):
         self.name = 'железяка'
-        
+   #     global pub
+	pub = rospy.Publisher('notification', Notification)
+
+	rospy.init_node('recognizing_node')
+
         dic_file_path  = rospy.get_param('~dictionary','russian.dic')        
 	dic_file = codecs.open(dic_file_path, 'r', 'utf-8')
 	try:
@@ -31,8 +35,7 @@ class recognizer(object):
 	    rospy.logerr('name not specified, using default: '+self.name)
 	# subscribe to the pocketsphinx output    
 	#rospy.Subscriber('/recognizer/output', String, self.on_speech)
-        pub = rospy.Publisher('notification', Notification)
-	pub.publish(Notification(str(uuid.uuid1()), "Модуль распознавания речи запущен.", 0, "voice,log", "", ()))
+        pub.publish(Notification(str(uuid.uuid1()), "Модуль распознавания речи запущен.", 0, "voice,log", "", ()))
         while not rospy.is_shutdown():
             text = self.recognizing()
 	    if text:
@@ -83,6 +86,5 @@ class recognizer(object):
 	        print 'not recognized: ' + output
 
 if __name__=="__main__":
-    rospy.init_node('recognizing_node')
-    r = recognizer()
+        r = recognizer()
     
