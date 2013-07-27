@@ -58,7 +58,7 @@ def handle_command(req):
          #module_p = module.basemodule.basemodule(modules[module]);
          response = _modules[module].exec_cmd(params)
       else:
-         response = 'не могу ничего сказать про это %s' % module + " ".join(params)
+         response = 'не могу ничего сказать про это %s %s' % (module, " ".join(params))
       pub.publish(Notification(str(uuid.uuid1()), response, 0, "voice","", ()))
    #TODO
    print 'response: ' + response
