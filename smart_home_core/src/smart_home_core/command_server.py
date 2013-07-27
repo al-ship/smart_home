@@ -45,19 +45,23 @@ def command_server():
 def handle_command(req):
    print "Parsing '%s'"%req.command
    params = req.command.split(' ')
-   cmd = params.pop(0).lower()
-   module = params.pop(0).lower()
-   response = '"%s" not implemented' %cmd
+   cmd = ''
+   module = ''
+   if len(params) > 0:
+       cmd = params.pop(0).lower()
+   if len(params) > 0:
+       module = params.pop(0).lower()
+   response = 'неизвестная команда %s' % cmd
 
    if cmd == 'say':
       if _modules.has_key(module):
          #module_p = module.basemodule.basemodule(modules[module]);
          response = _modules[module].exec_cmd(params)
       else:
-         response = 'no module with name "%s" found' % module
+         response = 'не могу ничего сказать про это %s' % module + " ".join(params)
       pub.publish(Notification(str(uuid.uuid1()), response, 0, "voice","", ()))
-  #TODO
-
+   #TODO
+   print 'response: ' + response
    return CommandResponse(response)
 
 if __name__ == "__main__":
