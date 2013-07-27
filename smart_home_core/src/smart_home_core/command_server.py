@@ -61,7 +61,6 @@ def handle_command(req):
          response = 'не могу ничего сказать про это %s %s' % (module, " ".join(params))
       pub.publish(Notification(str(uuid.uuid1()), response, 0, "voice","", ()))
    #TODO
-   print 'response: ' + response
    return CommandResponse(response)
 
 if __name__ == "__main__":
