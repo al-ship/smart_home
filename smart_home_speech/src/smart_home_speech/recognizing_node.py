@@ -42,10 +42,10 @@ class recognizer(object):
 	        self.on_speech(text)
 
     def translate(self, msg):
-        result = msg
+        result = msg.decode('utf-8')
 	for (transl, keywords) in self.dictionary.iteritems():
             for keyword in keywords:
-	        if msg.find(keyword) > -1:
+	        if msg.decode('utf-8').find(keyword) > -1:
 		    result = result.replace(keyword, transl)		    
         return result
 
@@ -67,7 +67,7 @@ class recognizer(object):
 	google_args = shlex.split('wget -q -U "Mozilla/5.0" --post-file recording.flac --header="Content-Type: audio/x-flac; rate=16000" -O - "http://www.google.com/speech-api/v1/recognize?lang=ru-RU&client=chromium"')
 	# rec sound
 	try:
-	    os.system('sox -t alsa default recording.wav silence 1 0.1 10% 1 1.5 10%')
+	    os.system('sox -t alsa default recording.wav silence 1 0.1 7% 1 1.5 7%')
 	    os.system('sox recording.wav recording.flac rate 16000')
             #subprocess.call(rec_args)
 	except:
