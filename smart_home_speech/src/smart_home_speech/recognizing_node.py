@@ -45,8 +45,7 @@ class recognizer(object):
         result = msg.decode('utf-8')
 	for (transl, keywords) in self.dictionary.iteritems():
             for keyword in keywords:
-	        if msg.decode('utf-8').find(keyword) > -1:
-		    result = result.replace(keyword, transl)		    
+	        result = result.replace(keyword, transl)		    
         return result
 
     def on_speech(self, msg):

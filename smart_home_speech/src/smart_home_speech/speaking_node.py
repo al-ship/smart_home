@@ -11,7 +11,7 @@ from std_msgs.msg import String
 class Speaking(object)
     
     def say(data):
-        text = data.data
+        text = data.data.decode('utf-8')
         for key in self.word_map.keys(): # replacing 'bad' words
 	    text = text.replace(key, self.word_map[key])
         soundhandle.say(text, 'Elena')
