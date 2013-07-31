@@ -53,14 +53,17 @@ def handle_command(req):
        module = params.pop(0).lower()
    response = 'неизвестная команда %s' % cmd
 
-   if cmd == 'say':
+   if cmd == 'switch':
+       if _modules.has_key(module):
+           response = _modules[module].exec_cmd(params)
+         #TODO
+   elif cmd == 'say':
       if _modules.has_key(module):
-         #module_p = module.basemodule.basemodule(modules[module]);
-         response = _modules[module].exec_cmd(params)
+          response = _modules[module].exec_cmd(params)
       else:
-         response = 'не могу ничего сказать про это %s %s' % (module, " ".join(params))
+          response = 'не могу ничего сказать про это %s %s' % (module, " ".join(params))
       pub.publish(Notification(str(uuid.uuid1()), response, 0, "voice","", ()))
-   #TODO
+
    return CommandResponse(response)
 
 if __name__ == "__main__":

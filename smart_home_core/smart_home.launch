@@ -1,6 +1,8 @@
 <launch>
     <node name="s_play" pkg="sound_play" type="soundplay_node.py"/>
-    <node name="speaking" pkg="smart_home_speech" type="speaking_node.py"/>
+    <node name="speaking" pkg="smart_home_speech" type="speaking_node.py">
+        <param name="mapfile" value="$(find smart_home_speech)/share/russian.map"/>
+    </node>
     <node name="notification" pkg="smart_home_core" type="notification_node.py"/>
     <node name="server" pkg="smart_home_core" type="command_server.py"/>
     <node name="recognition" pkg="smart_home_speech" type="recognizing_node.py">
