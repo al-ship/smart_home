@@ -1,0 +1,4 @@
+<launch>
+    <node name="command_server" pkg="smart_home_core" type="command_server.py"/>
+    <test test-name="command_test" pkg="smart_home_core" type="test_command_server.py"/>
+</launch>

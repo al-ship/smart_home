@@ -63,6 +63,8 @@ def handle_command(req):
       else:
           response = 'не могу ничего сказать про это %s %s' % (module, " ".join(params))
       pub.publish(Notification(str(uuid.uuid1()), response, 0, "voice","", ()))
+   elif cmd == 'test':
+       response = 'test ok, param:%s'%module
 
    return CommandResponse(response)
 

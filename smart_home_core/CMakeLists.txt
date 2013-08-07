@@ -4,7 +4,7 @@ project(smart_home_core)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs message_generation)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy rostest std_msgs message_generation)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -119,7 +119,10 @@ install(FILES
 #############
 ## Testing ##
 #############
-
+foreach(T
+    test/test_command_server.launch)
+  add_rostest(${T})
+endforeach()
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_smart_home_core.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
