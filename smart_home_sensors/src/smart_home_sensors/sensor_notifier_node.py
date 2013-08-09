@@ -39,11 +39,14 @@ class Notifier(object):
     def timer_call(self, event):
         data = ''
 	try:
-	    data = self.sensor.read()
+	    data = self.sensor.read().strip()
 	except:
 	    rospy.logerr('Ошибка чтения датчика %s' % rospy.get_name())
-	if self.notification_value == data:    
+	if self.notification_value == data:
+	    #print self.notification_text
             self.pub.publish(Notification(str(uuid.uuid1()), self.notification_text, self.notification_level, self.notification_target, "", ()))
+#	else:
+	    #print self.notification_value + "!=" + data
 
 if __name__ == "__main__":
     notifier = Notifier()

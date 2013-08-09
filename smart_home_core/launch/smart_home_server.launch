@@ -1,8 +1,8 @@
 <launch>
     <node name="notification" pkg="smart_home_core" type="notification_node.py"/>
     <node name="server" pkg="smart_home_core" type="command_server.py"/>
-    <node name="leak_sensor_1" pkg="smart_home_sensors" type="sensor_notifier_node">
-        <param name="sensor_param" value="/mnt/1wire/24.000/PIN1"/>
+    <node name="leak_sensor_1" pkg="smart_home_sensors" type="sensor_notifier_node.py">
+        <param name="sensor_param" value="/home/shipulya/1"/>
 	<param name="notification_text" value="Внимание! Сработал датчик протечки 1"/>
     </node>
 </launch>
