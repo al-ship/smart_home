@@ -8,4 +8,8 @@
     <node name="recognition" pkg="smart_home_speech" type="recognizing_node.py">
         <param name="dictionary" value="$(find smart_home_speech)/share/russian.dic"/>
     </node>
+    <node name="leak_sensor_1" pkg="smart_home_sensors" type="sensor_notifier_node">
+        <param name="sensor_param" value="/mnt/1wire/24.000/PIN1"/>
+        <param name="notification_text" value="Внимание! Сработал датчик протечки 1"/>
+    </node>
 </launch>

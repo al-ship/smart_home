@@ -1,0 +1,9 @@
+<launch>
+    <node name="s_play" pkg="sound_play" type="soundplay_node.py"/>
+    <node name="speaking" pkg="smart_home_speech" type="speaking_node.py">
+        <param name="mapfile" value="$(find smart_home_speech)/share/russian.map"/>
+    </node>
+    <node name="recognition" pkg="smart_home_speech" type="recognizing_node.py">
+        <param name="dictionary" value="$(find smart_home_speech)/share/russian.dic"/>
+    </node>
+</launch>
