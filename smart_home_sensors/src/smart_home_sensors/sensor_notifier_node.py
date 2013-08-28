@@ -22,7 +22,7 @@ class Notifier(object):
 	self.notification_text = rospy.get_param('~notification_text', u'Сработал датчик')
 	self.notification_level = rospy.get_param('~notification_level', 2)
 	self.notification_target = rospy.get_param('~notification_target', 'voice,log')
-	self.notification_value = rospy.get_param('~notification_value', '1')
+	self.notification_value = str(rospy.get_param('~notification_value', '1'))
 
         interval = rospy.get_param('~check_inteval', 10)
 	self.timer = rospy.Timer(rospy.Duration(interval), self.timer_call)
@@ -37,12 +37,13 @@ class Notifier(object):
         self.timer.shutdown()
 
     def timer_call(self, event):
-        data = ''
+	data = ''
 	try:
 	    data = self.sensor.read().strip()
 	except:
 	    rospy.logerr('Ошибка чтения датчика %s' % rospy.get_name())
-	if self.notification_value == data:
+	#print data + self.notification_value
+	if self.notification_value == str(data):
 	    #print self.notification_text
             self.pub.publish(Notification(str(uuid.uuid1()), self.notification_text, self.notification_level, self.notification_target, "", ()))
 #	else:
