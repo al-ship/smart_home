@@ -8,7 +8,8 @@ import shlex
 import xml.etree.ElementTree as ET
 import sys
 
-class weather(basemodule.basemodule):
+class Weather(basemodule.basemodule):
+
     def exec_cmd(self, params):
         #args = shlex.split('wget -q -O - "http://informer.gismeteo.ru/rss/28440.xml"')
         args = shlex.split('wget -q -O - "http://meteoinfo.ru/rss/forecasts/28440"')
@@ -28,6 +29,6 @@ class weather(basemodule.basemodule):
         pass
 
 if __name__ == "__main__":
-       t = weather();
-       print t.exec_cmd(sys.argv)
+    t = Weather();
+    print t.exec_cmd(sys.argv)
 

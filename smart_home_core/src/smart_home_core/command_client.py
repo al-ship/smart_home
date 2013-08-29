@@ -21,8 +21,8 @@ def usage():
 
 if __name__ == "__main__":
     if len(sys.argv) > 0:
-    	sys.argv.pop(0)
-        command = ' '.join(sys.argv)        
+        sys.argv.pop(0)
+        command = ' '.join(sys.argv)
     else:
         print usage()
         sys.exit(1)
