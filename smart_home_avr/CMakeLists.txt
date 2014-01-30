@@ -4,7 +4,7 @@ project(smart_home_avr)
 find_package(catkin REQUIRED COMPONENTS std_msgs message_generation)
 
 add_service_files(FILES
-                  AvrHumidity.srv AvrTemperature.srv
+    AvrSetPin.srv AvrReadPin.srv
                  )
 
 generate_messages()

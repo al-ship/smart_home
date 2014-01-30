@@ -1,5 +1,5 @@
-#ifndef _ROS_SERVICE_AvrHumidity_h
-#define _ROS_SERVICE_AvrHumidity_h
+#ifndef _ROS_SERVICE_AvrSetPin_h
+#define _ROS_SERVICE_AvrSetPin_h
 #include <stdint.h>
 #include <string.h>
 #include <stdlib.h>
@@ -8,18 +8,18 @@
 namespace smart_home_avr
 {
 
-static const char AVRHUMIDITY[] = "smart_home_avr/AvrHumidity";
+static const char AVRSETPIN[] = "smart_home_avr/AvrSetPin";
 
-  class AvrHumidityRequest : public ros::Msg
+  class AvrSetPinRequest : public ros::Msg
   {
     public:
-      int8_t input;
+      bool input;
 
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
-        int8_t real;
+        bool real;
         uint8_t base;
       } u_input;
       u_input.real = this->input;
@@ -32,7 +32,7 @@ static const char AVRHUMIDITY[] = "smart_home_avr/AvrHumidity";
     {
       int offset = 0;
       union {
-        int8_t real;
+        bool real;
         uint8_t base;
       } u_input;
       u_input.base = 0;
@@ -42,21 +42,21 @@ static const char AVRHUMIDITY[] = "smart_home_avr/AvrHumidity";
      return offset;
     }
 
-    const char * getType(){ return AVRHUMIDITY; };
-    const char * getMD5(){ return "1491ea77b99fb7b24d088237597e6386"; };
+    const char * getType(){ return AVRSETPIN; };
+    const char * getMD5(){ return "2b64ae4a7ed5de74b5f183194512b62f"; };
 
   };
 
-  class AvrHumidityResponse : public ros::Msg
+  class AvrSetPinResponse : public ros::Msg
   {
     public:
-      int8_t output;
+      bool output;
 
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
       union {
-        int8_t real;
+        bool real;
         uint8_t base;
       } u_output;
       u_output.real = this->output;
@@ -69,7 +69,7 @@ static const char AVRHUMIDITY[] = "smart_home_avr/AvrHumidity";
     {
       int offset = 0;
       union {
-        int8_t real;
+        bool real;
         uint8_t base;
       } u_output;
       u_output.base = 0;
@@ -79,15 +79,15 @@ static const char AVRHUMIDITY[] = "smart_home_avr/AvrHumidity";
      return offset;
     }
 
-    const char * getType(){ return AVRHUMIDITY; };
-    const char * getMD5(){ return "dac95e5e93a827d01a2335b08084600d"; };
+    const char * getType(){ return AVRSETPIN; };
+    const char * getMD5(){ return "d5fa62db5c86ed745052c3b25d12f430"; };
 
   };
 
-  class AvrHumidity {
+  class AvrSetPin {
     public:
-    typedef AvrHumidityRequest Request;
-    typedef AvrHumidityResponse Response;
+    typedef AvrSetPinRequest Request;
+    typedef AvrSetPinResponse Response;
   };
 
 }
