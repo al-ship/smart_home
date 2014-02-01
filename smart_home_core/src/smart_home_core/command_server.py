@@ -24,7 +24,7 @@ def command_server():
         for elem in dir (module_obj):
             obj = getattr (module_obj, elem)
             if inspect.isclass(obj) and issubclass(obj, modules.basemodule.basemodule):
-            _modules[module_name] = obj()
+                _modules[module_name] = obj()
         #check
         if _modules.has_key(module_name):
              print "module '%s' loaded" % module_name
