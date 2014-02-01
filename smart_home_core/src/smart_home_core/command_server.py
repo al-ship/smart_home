@@ -18,18 +18,18 @@ def command_server():
     for fname in os.listdir(modules_dir):
         if fname.endswith (".py")  and fname != "basemodule.py" and fname != "__init__.py":
             module_name = fname[: -3]
-        print "Load module '%s'..." % module_name
-        package_obj = __import__(plugin_dir + "." + module_name)
-        module_obj = getattr (package_obj, module_name)
-        for elem in dir (module_obj):
-            obj = getattr (module_obj, elem)
-            if inspect.isclass(obj) and issubclass(obj, modules.basemodule.basemodule):
-                _modules[module_name] = obj()
-        #check
-        if _modules.has_key(module_name):
-             print "module '%s' loaded" % module_name
-        else:
-             print "error: module '%s' has no class '%s'!" % (module_name, module_name)
+            print "Load module '%s'..." % module_name
+            package_obj = __import__(plugin_dir + "." + module_name)
+            module_obj = getattr (package_obj, module_name)
+            for elem in dir (module_obj):
+                obj = getattr (module_obj, elem)
+                if inspect.isclass(obj) and issubclass(obj, modules.basemodule.basemodule):
+                    _modules[module_name] = obj()
+            #check
+            if _modules.has_key(module_name):
+                 print "module '%s' loaded" % module_name
+            else:
+                 print "error: module '%s' has no class '%s'!" % (module_name, module_name)
     global pub
     pub = rospy.Publisher('notification', Notification)
     rospy.init_node('command_server')
