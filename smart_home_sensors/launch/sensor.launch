@@ -1,0 +1,24 @@
+<launch>
+    <!--example bit sensor node for 1wire device-->
+    <node name="wire_sensor" pkg="smart_home_sensors" type="bit_sensor.py">
+        <!--path to file-->
+        <param name="sensor_id" value="/mnt/1wire/12.xxx"/>
+        <!--file reading and publishing  interval-->
+        <param name="check_interval" value="1"/>
+    </node>
+    <!--example notification node for sensor-->
+    <node name="wire_sensor_notifier" pkg="smart_home_sensor" type="sensor_notifier_node.py">
+        <!--bit sensor topic name-->
+        <param name="sensor_topic" value="wire_sensor"/>
+        <!--Criteria eq-equal, gt-greater then, lt-lower then, ge-greater or equal,
+           le-lower or equal, ne-not equal-->
+        <param name="criteria" value="eq"/>
+        <!--value of sensor to compare. For bit sensor mast be True or False-->
+        <param name="notification_value" value="True"/>
+        <!--level: 0-info, 1-warn, 2-alert-->
+        <param name="notification_level" value="2"/>
+        <param name="notification_text" value="ALARM! ALARM!"/>
+        <!--target : voice, log, email-->
+        <param name="notification_target" value="voice,log"/>
+    </node>
+</launch>

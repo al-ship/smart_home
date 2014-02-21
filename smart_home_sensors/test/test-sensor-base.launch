@@ -1,0 +1,6 @@
+<launch>
+    <node name="sensor_base_test" pkg="smart_home_sensors" type="sensor_base.py" >
+        <param name="check_interval" value="1"/>
+    </node>
+    <test test-name="test_sensor_base" pkg="smart_home_sensors" type="test_sensor_base.py" />
+</launch>

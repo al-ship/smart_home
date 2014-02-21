@@ -1,0 +1,4 @@
+int32 num
+bool value
+---
+bool success
