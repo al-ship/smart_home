@@ -3,12 +3,6 @@ project(smart_home_avr)
 
 find_package(catkin REQUIRED COMPONENTS std_msgs message_generation)
 
-add_service_files(FILES
-    AvrSetPin.srv AvrReadPin.srv
-                 )
-
-generate_messages()
-
 catkin_package(CATKIN_DEPENDS message_runtime)
 
 install(DIRECTORY src/ros_lib

@@ -1,6 +1,6 @@
 #include "ros.h"
-#include "smart_home_avr/AvrSetPin.h"
-#include "smart_home_avr/AvrReadPin.h"
+#include "smart_home_sensors/ReadSensorBit.h"
+#include "smart_home_sensors/WriteSensorBit.h"
 #include "std_msgs/UInt8.h"
 #include "std_msgs/Float32.h"
 #include "std_msgs/Bool.h"
@@ -21,8 +21,8 @@ extern "C"
 extern "C" void __cxa_pure_virtual(void);
 void __cxa_pure_virtual(void) {}
 
-using smart_home_avr::AvrSetPin;
-using smart_home_avr::AvrReadPin;
+using smart_home_sensors::ReadSensorBit;
+using smart_home_sensors::WriteSensorBit;
 
 ros::NodeHandle nh;
 
@@ -31,27 +31,27 @@ ros::Publisher humPub("avr_humidity", &hum);
 std_msgs::Float32 temp;
 ros::Publisher tempPub("avr_temperature", &temp);
 
-void setPin(const AvrSetPin::Request &req, AvrSetPin::Response &res)
+void setPin(const WriteSensorBit::Request &req, WriteSensorBit::Response &res)
 {
-    res.output = false;
-    if(req.input)
+    res.success = false;
+    if(req.value)
         setpinport |= _BV(setpin);
     else
         setpinport &= ~_BV(setpin);
-    res.output = true;
+    res.success = true;
 }
 
-void readPin(const AvrReadPin::Request &req, AvrReadPin::Response &res)
+void readPin(const ReadSensorBit::Request &req, ReadSensorBit::Response &res)
 {
-    res.output = false;    
+    res.value = false;    
     if(bit_is_set(readpinport, readpin))
-        res.output = true;
+        res.value = true;
     else
-        res.output = false;
+        res.value = false;
 }
 
-ros::ServiceServer<AvrSetPin::Request, AvrSetPin::Response> servSetPin("avr_setpin", &setPin);
-ros::ServiceServer<AvrReadPin::Request, AvrReadPin::Response> servReadPin("avr_readpin", &readPin);
+ros::ServiceServer<WriteSensorBit::Request, WriteSensorBit::Response> servSetPin("avr_setpin", &setPin);
+ros::ServiceServer<ReadSensorBit::Request, ReadSensorBit::Response> servReadPin("avr_readpin", &readPin);
 
 int main()
 {
