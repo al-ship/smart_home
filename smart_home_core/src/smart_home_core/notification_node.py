@@ -17,7 +17,7 @@ class Notifier(object):
         self._smtp = rospy.get_param('~smtp', 'smtp.gmail.com:587')
         self._smtp_user = rospy.get_param('~smtp_user', '')
         self._smtp_password = rospy.get_param('~smtp_password', '')
-
+        rospy.sleep(1)
         print 'notification started'
         self.pub.publish('модуль уведомлений запущен')
 

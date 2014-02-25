@@ -17,7 +17,6 @@ class Speaking(object):
         for key in self.word_map.keys(): # replacing 'bad' words
             text = text.replace(key, self.word_map[key])
         self.soundhandle.say(text, 'Elena')
-        rospy.sleep(1)
 
     def __init__(self):
         rospy.init_node('speaking_node', anonymous = True)
@@ -35,5 +34,4 @@ class Speaking(object):
 if __name__ == '__main__':
     speaking = Speaking()
     speaking.soundhandle = SoundClient()
-    rospy.sleep(1)
     rospy.spin()

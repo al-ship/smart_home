@@ -34,6 +34,8 @@ class recognizer(object):
             rospy.logerr('name not specified, using default: '+self.name)
         # subscribe to the pocketsphinx output    
         #rospy.Subscriber('/recognizer/output', String, self.on_speech)
+        rospy.wait_for_service('command');
+        self.command = rospy.ServiceProxy('command', Command)
         pub.publish(Notification(str(uuid.uuid1()), "Модуль распознавания речи запущен.", 0, "voice,log", "", ()))
 
     def translate(self, msg):
@@ -53,8 +55,7 @@ class recognizer(object):
             st = self.translate(st.strip())
             rospy.loginfo(st.encode('utf-8'))
             try:
-                command = rospy.ServiceProxy('command', Command)
-                resp1 = command(st)
+                resp1 = self.command(st)
             except rospy.ServiceException, e:
                 rospy.logerror("Service call failed: %s"%e)
 

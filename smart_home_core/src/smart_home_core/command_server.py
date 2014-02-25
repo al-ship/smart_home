@@ -33,6 +33,7 @@ def command_server():
     global pub
     pub = rospy.Publisher('notification', Notification)
     rospy.init_node('command_server')
+    rospy.sleep(1)
     s = rospy.Service('command', Command, handle_command)
     pub.publish(Notification(str(uuid.uuid1()), "Командный интерпретатор запущен.", 0, "voice,log", "", ()))
     rospy.spin()
