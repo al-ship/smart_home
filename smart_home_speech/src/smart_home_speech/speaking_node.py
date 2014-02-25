@@ -4,7 +4,7 @@
 import rospy
 import os
 import tempfile
-import roslib; roslib.load_manifest('sound_play')
+#import roslib; roslib.load_manifest('sound_play')
 from sound_play.libsoundplay import SoundClient
 from std_msgs.msg import String
 import codecs

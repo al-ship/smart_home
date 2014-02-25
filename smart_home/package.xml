@@ -1,6 +1,6 @@
 <package>
    <name>smart_home</name>
-   <version>0.0.0</version>
+   <version>0.1.2</version>
    <description>
        Home automation powered by ROS
    </description>
@@ -15,7 +15,6 @@
    <run_depend>audio_common_msgs</run_depend>
    <run_depend>audio_play</run_depend>
    <run_depend>sound_play</run_depend>
-   <run_depend>pocketsphinx</run_depend>
    <export>
        <metapackage/>
    </export>

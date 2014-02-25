@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>smart_home_avr</name>
-  <version>0.0.0</version>
+  <version>0.1.0</version>
   <description>The smart_home_avr package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 

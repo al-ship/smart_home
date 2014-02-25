@@ -4,7 +4,7 @@ project(smart_home_speech)
 ## Find catkin macros and libraries
 ## if COMPONENTS list like find_package(catkin REQUIRED COMPONENTS xyz)
 ## is used, also find other catkin packages
-find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs)
+find_package(catkin REQUIRED COMPONENTS roscpp rospy std_msgs sound_play)
 
 ## System dependencies are found with CMake's conventions
 # find_package(Boost REQUIRED COMPONENTS system)
@@ -50,7 +50,7 @@ catkin_python_setup()
 catkin_package(
 #   INCLUDE_DIRS include
 #  LIBRARIES smart_home_speech
-#  CATKIN_DEPENDS audio_common roscpp rospy smart_home_core std_msgs
+  CATKIN_DEPENDS sound_play rospy smart_home_core std_msgs
   DEPENDS system_lib
 )
 

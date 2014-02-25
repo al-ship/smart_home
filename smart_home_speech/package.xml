@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <package>
   <name>smart_home_speech</name>
-  <version>0.0.0</version>
+  <version>0.1.0</version>
   <description>The smart_home_speech package</description>
 
   <!-- One maintainer tag required, multiple allowed, one person per tag --> 
@@ -40,7 +40,7 @@
   <!-- Use test_depend for packages you need only for testing: -->
   <!--   <test_depend>gtest</test_depend> -->
   <buildtool_depend>catkin</buildtool_depend>
-  <build_depend>audio_common</build_depend>
+  <build_depend>sound_play</build_depend>
   <build_depend>roscpp</build_depend>
   <build_depend>rospy</build_depend>
   <build_depend>smart_home_core</build_depend>

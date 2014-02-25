@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import roslib; roslib.load_manifest('smart_home_core')
+#import roslib; roslib.load_manifest('smart_home_core')
 
 import sys
 

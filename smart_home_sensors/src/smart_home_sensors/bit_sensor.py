@@ -51,7 +51,7 @@ class BitSensor(SensorBase):
 
 if __name__ == "__main__":
     sensor = BitSensor()
-    rospy.loginfo("bit sensor running %s:%s" % (sesor.get_name(), sensor.path))
+    rospy.loginfo("bit sensor running %s:%s" % (sensor.get_name(), sensor.path))
     rospy.spin()
     sensor.stop()
 
