@@ -42,11 +42,11 @@ namespace sensor_msgs
       *(outbuffer + offset + 2) = (this->width >> (8 * 2)) & 0xFF;
       *(outbuffer + offset + 3) = (this->width >> (8 * 3)) & 0xFF;
       offset += sizeof(this->width);
-      uint32_t * length_distortion_model = (uint32_t *)(outbuffer + offset);
-      *length_distortion_model = strlen( (const char*) this->distortion_model);
+      uint32_t length_distortion_model = strlen( (const char*) this->distortion_model);
+      memcpy(outbuffer + offset, &length_distortion_model, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->distortion_model, *length_distortion_model);
-      offset += *length_distortion_model;
+      memcpy(outbuffer + offset, this->distortion_model, length_distortion_model);
+      offset += length_distortion_model;
       *(outbuffer + offset++) = D_length;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
@@ -146,7 +146,8 @@ namespace sensor_msgs
       this->width |= ((uint32_t) (*(inbuffer + offset + 2))) << (8 * 2);
       this->width |= ((uint32_t) (*(inbuffer + offset + 3))) << (8 * 3);
       offset += sizeof(this->width);
-      uint32_t length_distortion_model = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_distortion_model;
+      memcpy(&length_distortion_model, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_distortion_model; ++k){
           inbuffer[k-1]=inbuffer[k];

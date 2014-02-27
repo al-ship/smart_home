@@ -20,11 +20,11 @@ namespace face_recognition
       int offset = 0;
       *(outbuffer + offset + 0) = (this->order_id >> (8 * 0)) & 0xFF;
       offset += sizeof(this->order_id);
-      uint32_t * length_order_argument = (uint32_t *)(outbuffer + offset);
-      *length_order_argument = strlen( (const char*) this->order_argument);
+      uint32_t length_order_argument = strlen( (const char*) this->order_argument);
+      memcpy(outbuffer + offset, &length_order_argument, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->order_argument, *length_order_argument);
-      offset += *length_order_argument;
+      memcpy(outbuffer + offset, this->order_argument, length_order_argument);
+      offset += length_order_argument;
       return offset;
     }
 
@@ -33,7 +33,8 @@ namespace face_recognition
       int offset = 0;
       this->order_id =  ((uint8_t) (*(inbuffer + offset)));
       offset += sizeof(this->order_id);
-      uint32_t length_order_argument = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_order_argument;
+      memcpy(&length_order_argument, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_order_argument; ++k){
           inbuffer[k-1]=inbuffer[k];

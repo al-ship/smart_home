@@ -24,28 +24,28 @@ namespace smart_home_core
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t * length_id = (uint32_t *)(outbuffer + offset);
-      *length_id = strlen( (const char*) this->id);
+      uint32_t length_id = strlen( (const char*) this->id);
+      memcpy(outbuffer + offset, &length_id, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->id, *length_id);
-      offset += *length_id;
-      uint32_t * length_text = (uint32_t *)(outbuffer + offset);
-      *length_text = strlen( (const char*) this->text);
+      memcpy(outbuffer + offset, this->id, length_id);
+      offset += length_id;
+      uint32_t length_text = strlen( (const char*) this->text);
+      memcpy(outbuffer + offset, &length_text, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->text, *length_text);
-      offset += *length_text;
+      memcpy(outbuffer + offset, this->text, length_text);
+      offset += length_text;
       *(outbuffer + offset + 0) = (this->level >> (8 * 0)) & 0xFF;
       offset += sizeof(this->level);
-      uint32_t * length_destination = (uint32_t *)(outbuffer + offset);
-      *length_destination = strlen( (const char*) this->destination);
+      uint32_t length_destination = strlen( (const char*) this->destination);
+      memcpy(outbuffer + offset, &length_destination, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->destination, *length_destination);
-      offset += *length_destination;
-      uint32_t * length_recipient = (uint32_t *)(outbuffer + offset);
-      *length_recipient = strlen( (const char*) this->recipient);
+      memcpy(outbuffer + offset, this->destination, length_destination);
+      offset += length_destination;
+      uint32_t length_recipient = strlen( (const char*) this->recipient);
+      memcpy(outbuffer + offset, &length_recipient, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->recipient, *length_recipient);
-      offset += *length_recipient;
+      memcpy(outbuffer + offset, this->recipient, length_recipient);
+      offset += length_recipient;
       *(outbuffer + offset++) = data_length;
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
@@ -60,7 +60,8 @@ namespace smart_home_core
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t length_id = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_id;
+      memcpy(&length_id, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_id; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -68,7 +69,8 @@ namespace smart_home_core
       inbuffer[offset+length_id-1]=0;
       this->id = (char *)(inbuffer + offset-1);
       offset += length_id;
-      uint32_t length_text = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_text;
+      memcpy(&length_text, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_text; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -78,7 +80,8 @@ namespace smart_home_core
       offset += length_text;
       this->level =  ((uint8_t) (*(inbuffer + offset)));
       offset += sizeof(this->level);
-      uint32_t length_destination = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_destination;
+      memcpy(&length_destination, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_destination; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -86,7 +89,8 @@ namespace smart_home_core
       inbuffer[offset+length_destination-1]=0;
       this->destination = (char *)(inbuffer + offset-1);
       offset += length_destination;
-      uint32_t length_recipient = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_recipient;
+      memcpy(&length_recipient, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_recipient; ++k){
           inbuffer[k-1]=inbuffer[k];

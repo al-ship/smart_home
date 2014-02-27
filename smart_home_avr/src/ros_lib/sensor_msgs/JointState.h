@@ -36,11 +36,11 @@ namespace sensor_msgs
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       for( uint8_t i = 0; i < name_length; i++){
-      uint32_t * length_namei = (uint32_t *)(outbuffer + offset);
-      *length_namei = strlen( (const char*) this->name[i]);
+      uint32_t length_namei = strlen( (const char*) this->name[i]);
+      memcpy(outbuffer + offset, &length_namei, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->name[i], *length_namei);
-      offset += *length_namei;
+      memcpy(outbuffer + offset, this->name[i], length_namei);
+      offset += length_namei;
       }
       *(outbuffer + offset++) = position_length;
       *(outbuffer + offset++) = 0;
@@ -115,7 +115,8 @@ namespace sensor_msgs
       offset += 3;
       name_length = name_lengthT;
       for( uint8_t i = 0; i < name_length; i++){
-      uint32_t length_st_name = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_st_name;
+      memcpy(&length_st_name, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_st_name; ++k){
           inbuffer[k-1]=inbuffer[k];

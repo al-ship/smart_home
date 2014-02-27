@@ -26,12 +26,7 @@ using smart_home_sensors::WriteSensorBit;
 
 ros::NodeHandle nh;
 
-std_msgs::UInt8 hum;
-ros::Publisher humPub("avr_humidity", &hum);
-std_msgs::Float32 temp;
-ros::Publisher tempPub("avr_temperature", &temp);
-
-void setPin(const WriteSensorBit::Request &req, WriteSensorBit::Response &res)
+static void setPin(const WriteSensorBit::Request &req, WriteSensorBit::Response &res)
 {
     res.success = false;
     if(req.value)
@@ -41,7 +36,7 @@ void setPin(const WriteSensorBit::Request &req, WriteSensorBit::Response &res)
     res.success = true;
 }
 
-void readPin(const ReadSensorBit::Request &req, ReadSensorBit::Response &res)
+static void readPin(const ReadSensorBit::Request &req, ReadSensorBit::Response &res)
 {
     res.value = false;    
     if(bit_is_set(readpinport, readpin))
@@ -52,6 +47,10 @@ void readPin(const ReadSensorBit::Request &req, ReadSensorBit::Response &res)
 
 ros::ServiceServer<WriteSensorBit::Request, WriteSensorBit::Response> servSetPin("avr_setpin", &setPin);
 ros::ServiceServer<ReadSensorBit::Request, ReadSensorBit::Response> servReadPin("avr_readpin", &readPin);
+std_msgs::UInt8 hum;
+ros::Publisher humPub("avr_humidity", &hum);
+std_msgs::Float32 temp;
+ros::Publisher tempPub("avr_temperature", &temp);
 
 int main()
 {
@@ -63,10 +62,13 @@ int main()
     uint32_t lasttime = 0UL;
     // Initialize ROS
     nh.initNode();
+    
+    nh.advertiseService(servSetPin);
+    //nh.spinOnce();
+    nh.advertiseService(servReadPin);
+
     nh.advertise(humPub);
     nh.advertise(tempPub);
-    nh.advertiseService(servSetPin);
-    nh.advertiseService(servReadPin);
     while(1)
     {
         /// Send the message every 3 seconds

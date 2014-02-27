@@ -48,11 +48,11 @@ namespace actionlib
       u_ignore_cancel.real = this->ignore_cancel;
       *(outbuffer + offset + 0) = (u_ignore_cancel.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->ignore_cancel);
-      uint32_t * length_result_text = (uint32_t *)(outbuffer + offset);
-      *length_result_text = strlen( (const char*) this->result_text);
+      uint32_t length_result_text = strlen( (const char*) this->result_text);
+      memcpy(outbuffer + offset, &length_result_text, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->result_text, *length_result_text);
-      offset += *length_result_text;
+      memcpy(outbuffer + offset, this->result_text, length_result_text);
+      offset += length_result_text;
       union {
         int32_t real;
         uint32_t base;
@@ -125,7 +125,8 @@ namespace actionlib
       u_ignore_cancel.base |= ((uint8_t) (*(inbuffer + offset + 0))) << (8 * 0);
       this->ignore_cancel = u_ignore_cancel.real;
       offset += sizeof(this->ignore_cancel);
-      uint32_t length_result_text = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_result_text;
+      memcpy(&length_result_text, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_result_text; ++k){
           inbuffer[k-1]=inbuffer[k];

@@ -18,18 +18,19 @@ static const char MUXADD[] = "topic_tools/MuxAdd";
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t * length_topic = (uint32_t *)(outbuffer + offset);
-      *length_topic = strlen( (const char*) this->topic);
+      uint32_t length_topic = strlen( (const char*) this->topic);
+      memcpy(outbuffer + offset, &length_topic, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->topic, *length_topic);
-      offset += *length_topic;
+      memcpy(outbuffer + offset, this->topic, length_topic);
+      offset += length_topic;
       return offset;
     }
 
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t length_topic = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_topic;
+      memcpy(&length_topic, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_topic; ++k){
           inbuffer[k-1]=inbuffer[k];

@@ -5,10 +5,10 @@
 #include <stdlib.h>
 #include "ros/msg.h"
 
-namespace tf
+namespace tf2_msgs
 {
 
-static const char FRAMEGRAPH[] = "tf/FrameGraph";
+static const char FRAMEGRAPH[] = "tf2_msgs/FrameGraph";
 
   class FrameGraphRequest : public ros::Msg
   {
@@ -34,36 +34,36 @@ static const char FRAMEGRAPH[] = "tf/FrameGraph";
   class FrameGraphResponse : public ros::Msg
   {
     public:
-      char * dot_graph;
+      char * frame_yaml;
 
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t length_dot_graph = strlen( (const char*) this->dot_graph);
-      memcpy(outbuffer + offset, &length_dot_graph, sizeof(uint32_t));
+      uint32_t length_frame_yaml = strlen( (const char*) this->frame_yaml);
+      memcpy(outbuffer + offset, &length_frame_yaml, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->dot_graph, length_dot_graph);
-      offset += length_dot_graph;
+      memcpy(outbuffer + offset, this->frame_yaml, length_frame_yaml);
+      offset += length_frame_yaml;
       return offset;
     }
 
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t length_dot_graph;
-      memcpy(&length_dot_graph, (inbuffer + offset), sizeof(uint32_t));
+      uint32_t length_frame_yaml;
+      memcpy(&length_frame_yaml, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
-      for(unsigned int k= offset; k< offset+length_dot_graph; ++k){
+      for(unsigned int k= offset; k< offset+length_frame_yaml; ++k){
           inbuffer[k-1]=inbuffer[k];
       }
-      inbuffer[offset+length_dot_graph-1]=0;
-      this->dot_graph = (char *)(inbuffer + offset-1);
-      offset += length_dot_graph;
+      inbuffer[offset+length_frame_yaml-1]=0;
+      this->frame_yaml = (char *)(inbuffer + offset-1);
+      offset += length_frame_yaml;
      return offset;
     }
 
     const char * getType(){ return FRAMEGRAPH; };
-    const char * getMD5(){ return "c4af9ac907e58e906eb0b6e3c58478c0"; };
+    const char * getMD5(){ return "437ea58e9463815a0d511c7326b686b0"; };
 
   };
 

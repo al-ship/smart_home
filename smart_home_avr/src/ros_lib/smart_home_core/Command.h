@@ -18,18 +18,19 @@ static const char COMMAND[] = "smart_home_core/Command";
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t * length_command = (uint32_t *)(outbuffer + offset);
-      *length_command = strlen( (const char*) this->command);
+      uint32_t length_command = strlen( (const char*) this->command);
+      memcpy(outbuffer + offset, &length_command, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->command, *length_command);
-      offset += *length_command;
+      memcpy(outbuffer + offset, this->command, length_command);
+      offset += length_command;
       return offset;
     }
 
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t length_command = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_command;
+      memcpy(&length_command, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_command; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -53,18 +54,19 @@ static const char COMMAND[] = "smart_home_core/Command";
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t * length_response = (uint32_t *)(outbuffer + offset);
-      *length_response = strlen( (const char*) this->response);
+      uint32_t length_response = strlen( (const char*) this->response);
+      memcpy(outbuffer + offset, &length_response, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->response, *length_response);
-      offset += *length_response;
+      memcpy(outbuffer + offset, this->response, length_response);
+      offset += length_response;
       return offset;
     }
 
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t length_response = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_response;
+      memcpy(&length_response, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_response; ++k){
           inbuffer[k-1]=inbuffer[k];

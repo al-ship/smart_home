@@ -30,11 +30,11 @@ namespace face_recognition
       *(outbuffer + offset++) = 0;
       *(outbuffer + offset++) = 0;
       for( uint8_t i = 0; i < names_length; i++){
-      uint32_t * length_namesi = (uint32_t *)(outbuffer + offset);
-      *length_namesi = strlen( (const char*) this->names[i]);
+      uint32_t length_namesi = strlen( (const char*) this->names[i]);
+      memcpy(outbuffer + offset, &length_namesi, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->names[i], *length_namesi);
-      offset += *length_namesi;
+      memcpy(outbuffer + offset, this->names[i], length_namesi);
+      offset += length_namesi;
       }
       *(outbuffer + offset++) = confidence_length;
       *(outbuffer + offset++) = 0;
@@ -66,7 +66,8 @@ namespace face_recognition
       offset += 3;
       names_length = names_lengthT;
       for( uint8_t i = 0; i < names_length; i++){
-      uint32_t length_st_names = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_st_names;
+      memcpy(&length_st_names, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_st_names; ++k){
           inbuffer[k-1]=inbuffer[k];

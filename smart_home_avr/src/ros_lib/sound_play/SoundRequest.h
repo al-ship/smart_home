@@ -45,16 +45,16 @@ namespace sound_play
       u_command.real = this->command;
       *(outbuffer + offset + 0) = (u_command.base >> (8 * 0)) & 0xFF;
       offset += sizeof(this->command);
-      uint32_t * length_arg = (uint32_t *)(outbuffer + offset);
-      *length_arg = strlen( (const char*) this->arg);
+      uint32_t length_arg = strlen( (const char*) this->arg);
+      memcpy(outbuffer + offset, &length_arg, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->arg, *length_arg);
-      offset += *length_arg;
-      uint32_t * length_arg2 = (uint32_t *)(outbuffer + offset);
-      *length_arg2 = strlen( (const char*) this->arg2);
+      memcpy(outbuffer + offset, this->arg, length_arg);
+      offset += length_arg;
+      uint32_t length_arg2 = strlen( (const char*) this->arg2);
+      memcpy(outbuffer + offset, &length_arg2, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->arg2, *length_arg2);
-      offset += *length_arg2;
+      memcpy(outbuffer + offset, this->arg2, length_arg2);
+      offset += length_arg2;
       return offset;
     }
 
@@ -77,7 +77,8 @@ namespace sound_play
       u_command.base |= ((uint8_t) (*(inbuffer + offset + 0))) << (8 * 0);
       this->command = u_command.real;
       offset += sizeof(this->command);
-      uint32_t length_arg = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_arg;
+      memcpy(&length_arg, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_arg; ++k){
           inbuffer[k-1]=inbuffer[k];
@@ -85,7 +86,8 @@ namespace sound_play
       inbuffer[offset+length_arg-1]=0;
       this->arg = (char *)(inbuffer + offset-1);
       offset += length_arg;
-      uint32_t length_arg2 = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_arg2;
+      memcpy(&length_arg2, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_arg2; ++k){
           inbuffer[k-1]=inbuffer[k];

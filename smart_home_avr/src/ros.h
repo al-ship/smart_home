@@ -6,7 +6,7 @@
 
 namespace ros
 {
-    typedef ros::NodeHandle_<Atmega32Hardware> NodeHandle;
+    typedef ros::NodeHandle_<Atmega32Hardware,25, 25, 280, 280> NodeHandle;
 }
 
 #endif

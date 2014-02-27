@@ -44,11 +44,11 @@ static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t * length_id = (uint32_t *)(outbuffer + offset);
-      *length_id = strlen( (const char*) this->id);
+      uint32_t length_id = strlen( (const char*) this->id);
+      memcpy(outbuffer + offset, &length_id, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->id, *length_id);
-      offset += *length_id;
+      memcpy(outbuffer + offset, this->id, length_id);
+      offset += length_id;
       union {
         int8_t real;
         uint8_t base;
@@ -69,7 +69,8 @@ static const char SELFTEST[] = "diagnostic_msgs/SelfTest";
     virtual int deserialize(unsigned char *inbuffer)
     {
       int offset = 0;
-      uint32_t length_id = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_id;
+      memcpy(&length_id, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_id; ++k){
           inbuffer[k-1]=inbuffer[k];

@@ -25,11 +25,11 @@ namespace rosserial_msgs
       int offset = 0;
       *(outbuffer + offset + 0) = (this->level >> (8 * 0)) & 0xFF;
       offset += sizeof(this->level);
-      uint32_t * length_msg = (uint32_t *)(outbuffer + offset);
-      *length_msg = strlen( (const char*) this->msg);
+      uint32_t length_msg = strlen( (const char*) this->msg);
+      memcpy(outbuffer + offset, &length_msg, sizeof(uint32_t));
       offset += 4;
-      memcpy(outbuffer + offset, this->msg, *length_msg);
-      offset += *length_msg;
+      memcpy(outbuffer + offset, this->msg, length_msg);
+      offset += length_msg;
       return offset;
     }
 
@@ -38,7 +38,8 @@ namespace rosserial_msgs
       int offset = 0;
       this->level =  ((uint8_t) (*(inbuffer + offset)));
       offset += sizeof(this->level);
-      uint32_t length_msg = *(uint32_t *)(inbuffer + offset);
+      uint32_t length_msg;
+      memcpy(&length_msg, (inbuffer + offset), sizeof(uint32_t));
       offset += 4;
       for(unsigned int k= offset; k< offset+length_msg; ++k){
           inbuffer[k-1]=inbuffer[k];
