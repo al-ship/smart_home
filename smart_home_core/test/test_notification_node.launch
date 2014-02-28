@@ -1,0 +1,3 @@
+<launch>
+    <test test-name="notification_node_test" pkg="smart_home_core" type="test_notification_node.py"/>
+</launch>

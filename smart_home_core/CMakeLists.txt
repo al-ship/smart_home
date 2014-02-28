@@ -118,9 +118,10 @@ install(DIRECTORY launch
 ## Testing ##
 #############
 foreach(T
-    test/test_command_server.launch)
+    test/test_command_server.launch test/test_notification_node.launch)
   add_rostest(${T})
 endforeach()
+
 ## Add gtest based cpp test target and link libraries
 # catkin_add_gtest(${PROJECT_NAME}-test test/test_smart_home_core.cpp)
 # if(TARGET ${PROJECT_NAME}-test)
