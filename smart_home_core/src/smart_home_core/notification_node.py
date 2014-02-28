@@ -23,19 +23,17 @@ class Notifier(object):
         self._smtp_user = rospy.get_param('~smtp_user', '')
         self._smtp_password = rospy.get_param('~smtp_password', '')
         #silence interval
-        default_inteval = '21:00:00-09:00:00'
+        default_interval = '21:00:00-09:00:00'
         str_interval = rospy.get_param('~silence_interval', default_interval)
-        pattern = re.compile(_pattern)
+        pattern = re.compile(self._pattern)
         if pattern.match(str_interval):
-            self.silence_interval = get_interval(str_interval, _time_mask)
+            self.silence_interval = get_interval(str_interval, self._time_mask)
         else:
-            self.silence_interval = get_interval(default_interval, _time_mask)
+            self.silence_interval = get_interval(default_interval, self._time_mask)
         rospy.sleep(1)
-        print 'notification started'
         self.pub.publish('модуль уведомлений запущен')
 
     def callback(self, notification):
-        print notification.destination
         if 'log' in notification.destination:
             if notification.level == 0:
                 rospy.loginfo(notification.text)
@@ -49,7 +47,7 @@ class Notifier(object):
         if 'voice' in notification.destination:
             #todo check current voice notification level
         #    print notification.text
-            if not is_interval(self.silence_inteval, datetime.now().time()):
+            if not is_interval(self.silence_interval, datetime.now().time()) or notification.level == 2:
                 self.pub.publish(String(notification.text))
 
         if 'mail' in notification.destination:
