@@ -13,6 +13,8 @@ import roslib
 
 class Notifier(object):
 
+    _repl = '%value%'
+
     def __init__(self):
         self.pub = rospy.Publisher('notification', Notification)
         rospy.init_node('sensor_notifier_node')
@@ -44,7 +46,9 @@ class Notifier(object):
            (self.criteria == 'ge' and value.data >= self.notification_value ) or \
            (self.criteria == 'le' and value.data <= self.notification_value ) or \
            (self.criteria == 'ne' and value.data != self.notification_value ):
-            self.pub.publish(Notification(str(uuid.uuid1()), self.notification_text, self.notification_level, self.notification_target, "", ()))
+            self.pub.publish(Notification(str(uuid.uuid1()), \
+            self.notification_text.replace(_repl, str(value.data)), \
+            self.notification_level, self.notification_target, "", ()))
 
 if __name__ == "__main__":
     notifier = Notifier()

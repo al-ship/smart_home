@@ -17,7 +17,8 @@
         <param name="notification_value" value="True"/>
         <!--level: 0-info, 1-warn, 2-alert-->
         <param name="notification_level" value="2"/>
-        <param name="notification_text" value="ALARM! ALARM!"/>
+        <!--%value% will be replaced with current value of sensor in text-->
+        <param name="notification_text" value="ALARM! ALARM! value: %value%"/>
         <!--target : voice, log, email-->
         <param name="notification_target" value="voice,log"/>
     </node>
