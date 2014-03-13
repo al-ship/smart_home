@@ -28,6 +28,8 @@ class Notifier(object):
         self.notification_target = rospy.get_param('~notification_target', 'voice,log')
         self.notification_value = rospy.get_param('~notification_value', '1')
         self.criteria = rospy.get_param('~criteria', 'eq')
+        self.interval = rospy.get_param('~interval', 30)
+        self.notif_time = rospy.Time()
         # subscribe to sensor topic
         data_type = rostopic.get_topic_type(sensor_topic, blocking=False)[0]
         if data_type:
@@ -46,9 +48,11 @@ class Notifier(object):
            (self.criteria == 'ge' and value.data >= self.notification_value ) or \
            (self.criteria == 'le' and value.data <= self.notification_value ) or \
            (self.criteria == 'ne' and value.data != self.notification_value ):
-            self.pub.publish(Notification(str(uuid.uuid1()), \
-            self.notification_text.replace(self._repl, str(value.data)), \
-            self.notification_level, self.notification_target, "", ()))
+            if rospy.Time.now() > self.notif_time + rospy.Duration.from_sec(self.interval):
+                self.pub.publish(Notification(str(uuid.uuid1()), \
+                 self.notification_text.replace(self._repl, str(value.data)), \
+                 self.notification_level, self.notification_target, "", ()))
+                self.notif_time = rospy.Time.now()
 
 if __name__ == "__main__":
     notifier = Notifier()

@@ -21,5 +21,7 @@
         <param name="notification_text" value="ALARM! ALARM! value: %value%"/>
         <!--target : voice, log, email-->
         <param name="notification_target" value="voice,log"/>
+        <!--notification interval in seconds, default: 30-->
+        <param name="interval" value="10"/>
     </node>
 </launch>
