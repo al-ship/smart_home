@@ -2,10 +2,9 @@
 # -*- coding: utf-8 -*- 
 
 import rospy
-import os
+import subprocess
+#import locale
 import tempfile
-#import roslib; roslib.load_manifest('sound_play')
-from sound_play.libsoundplay import SoundClient
 from std_msgs.msg import String
 import codecs
 import json
@@ -14,9 +13,13 @@ class Speaking(object):
 
     def say(self, data):
         text = data.data.decode('utf-8')
+        #rospy.loginfo(text.encode('utf-8'))
         for key in self.word_map.keys(): # replacing 'bad' words
             text = text.replace(key, self.word_map[key])
-        self.soundhandle.say(text, 'Elena')
+        #rospy.loginfo(text.encode('utf-8'))
+        #fse = locale.getpreferredencoding()
+        #text = text.encode(fse)
+        subprocess.call(['spd-say', '-y', 'anna', '"%s"' % text.encode('utf-8')])
 
     def __init__(self):
         rospy.init_node('speaking_node', anonymous = True)
@@ -33,5 +36,4 @@ class Speaking(object):
 
 if __name__ == '__main__':
     speaking = Speaking()
-    speaking.soundhandle = SoundClient()
     rospy.spin()

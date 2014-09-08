@@ -59,3 +59,5 @@ nosetests.xml
 *.i*86
 *.x86_64
 *.hex
+
+smart_home_avr/src/ros_lib/

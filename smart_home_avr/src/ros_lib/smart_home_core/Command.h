@@ -13,12 +13,12 @@ static const char COMMAND[] = "smart_home_core/Command";
   class CommandRequest : public ros::Msg
   {
     public:
-      char * command;
+      const char* command;
 
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t length_command = strlen( (const char*) this->command);
+      uint32_t length_command = strlen(this->command);
       memcpy(outbuffer + offset, &length_command, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->command, length_command);
@@ -49,12 +49,12 @@ static const char COMMAND[] = "smart_home_core/Command";
   class CommandResponse : public ros::Msg
   {
     public:
-      char * response;
+      const char* response;
 
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t length_response = strlen( (const char*) this->response);
+      uint32_t length_response = strlen(this->response);
       memcpy(outbuffer + offset, &length_response, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->response, length_response);

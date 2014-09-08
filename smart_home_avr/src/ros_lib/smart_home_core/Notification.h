@@ -12,11 +12,11 @@ namespace smart_home_core
   class Notification : public ros::Msg
   {
     public:
-      char * id;
-      char * text;
+      const char* id;
+      const char* text;
       uint8_t level;
-      char * destination;
-      char * recipient;
+      const char* destination;
+      const char* recipient;
       uint8_t data_length;
       uint8_t st_data;
       uint8_t * data;
@@ -24,24 +24,24 @@ namespace smart_home_core
     virtual int serialize(unsigned char *outbuffer) const
     {
       int offset = 0;
-      uint32_t length_id = strlen( (const char*) this->id);
+      uint32_t length_id = strlen(this->id);
       memcpy(outbuffer + offset, &length_id, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->id, length_id);
       offset += length_id;
-      uint32_t length_text = strlen( (const char*) this->text);
+      uint32_t length_text = strlen(this->text);
       memcpy(outbuffer + offset, &length_text, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->text, length_text);
       offset += length_text;
       *(outbuffer + offset + 0) = (this->level >> (8 * 0)) & 0xFF;
       offset += sizeof(this->level);
-      uint32_t length_destination = strlen( (const char*) this->destination);
+      uint32_t length_destination = strlen(this->destination);
       memcpy(outbuffer + offset, &length_destination, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->destination, length_destination);
       offset += length_destination;
-      uint32_t length_recipient = strlen( (const char*) this->recipient);
+      uint32_t length_recipient = strlen(this->recipient);
       memcpy(outbuffer + offset, &length_recipient, sizeof(uint32_t));
       offset += 4;
       memcpy(outbuffer + offset, this->recipient, length_recipient);
