@@ -16,6 +16,7 @@ class Notifier(object):
     _repl = '%value%'
 
     def __init__(self):
+        self.is_ready = None
         self.pub = rospy.Publisher('notification', Notification)
         rospy.init_node('sensor_notifier_node')
 
@@ -36,6 +37,7 @@ class Notifier(object):
             data_class = roslib.message.get_message_class(data_type)
             rospy.Subscriber(sensor_topic, data_class, self.callback)
             rospy.loginfo("start listening to %s, notification: %s %s", sensor_topic, self.criteria, str(self.notification_value))
+            self.is_ready = 1
         else:
             rospy.logerr("error getting type for topic " + sensor_topic)
 
@@ -56,4 +58,5 @@ class Notifier(object):
 
 if __name__ == "__main__":
     notifier = Notifier()
-    rospy.spin()
+    if notifier.is_ready:
+        rospy.spin()
