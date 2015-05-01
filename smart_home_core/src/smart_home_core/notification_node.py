@@ -31,7 +31,7 @@ class Notifier(object):
         else:
             self.silence_interval = get_interval(default_interval, self._time_mask)
         rospy.sleep(1)
-        //self.pub.publish('модуль уведомлений запущен')
+        #self.pub.publish('модуль уведомлений запущен')
 
     def callback(self, notification):
         if 'log' in notification.destination:
