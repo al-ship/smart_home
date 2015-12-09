@@ -8,6 +8,8 @@ import shlex
 import xml.etree.ElementTree as ET
 
 class news(basemodule.basemodule):
+    names = ['новости']
+
     def exec_cmd(self, params):
         args = shlex.split('wget -q -O - "http://news.google.ru/news?um=1&cf=all&ned=ru_ru&hl=ru&output=rss"')
         out,err = subprocess.Popen(args, stdout = subprocess.PIPE, stderr= subprocess.PIPE).communicate()

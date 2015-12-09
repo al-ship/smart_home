@@ -6,6 +6,7 @@ import basemodule
 
 class Temperature(basemodule.basemodule):
 
+    names = ['температуру', 'сколько градусов']
     path = '/mnt/1wire/28.87B236040000/fasttemp'
 
     def exec_cmd(self, params):

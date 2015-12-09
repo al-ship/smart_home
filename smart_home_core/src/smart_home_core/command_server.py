@@ -31,12 +31,17 @@ def command_server():
             else:
                  print "error: module '%s' has no class '%s'!" % (module_name, module_name)
     global pub
-    pub = rospy.Publisher('notification', Notification)
+    pub = rospy.Publisher('notification', Notification, queue_size=10)
     rospy.init_node('command_server')
     rospy.sleep(1)
     s = rospy.Service('command', Command, handle_command)
     pub.publish(Notification(str(uuid.uuid1()), "Командный интерпретатор запущен.", 0, "voice,log", "", ()))
     rospy.spin()
+
+def add_module(module, name):
+    _modules[name] = module
+    for key in module.names:
+        _modules[key] = module
 
 def handle_command(req):
     print "Parsing '%s'"%req.command
@@ -52,15 +57,26 @@ def handle_command(req):
     if cmd == 'switch':
         if _modules.has_key(module):
             response = _modules[module].exec_cmd(params)
+    elif cmd == 'test':
+        response = 'test ok, param:%s'%module
     elif cmd == 'say':
         if _modules.has_key(module):
             response = _modules[module].exec_cmd(params)
         else:
             response = 'не могу ничего сказать про это %s %s' % (module, " ".join(params))
-        pub.publish(Notification(str(uuid.uuid1()), response, 0, "voice","", ()))
-    elif cmd == 'test':
-        response = 'test ok, param:%s'%module
+    else:
+        if _modules.has_key(cmd):
+            response = _modules[cmd].exec_cmd(params)
+        else:
+            response = exec_command(req.command)
+
     return CommandResponse(response)
+
+def exec_command(command):
+    for key in _modules.keys():
+        if key in command:
+            return _modules[key].exec_cmd(command.split(' '))
+    return 'неизвестная команда'
 
 if __name__ == "__main__":
     command_server()

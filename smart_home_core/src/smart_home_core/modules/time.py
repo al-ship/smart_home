@@ -5,6 +5,8 @@ import datetime
 
 class time(basemodule.basemodule):
 
+    names = ['сколько время', 'который час']
+
     def __init__(self):
         pass
 
