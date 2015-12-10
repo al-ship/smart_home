@@ -24,7 +24,7 @@ def command_server():
             for elem in dir (module_obj):
                 obj = getattr (module_obj, elem)
                 if inspect.isclass(obj) and issubclass(obj, modules.basemodule.basemodule):
-                    _modules[module_name] = obj()
+                    add_module(obj(), module_name)
             #check
             if _modules.has_key(module_name):
                  print "module '%s' loaded" % module_name
@@ -73,10 +73,11 @@ def handle_command(req):
     return CommandResponse(response)
 
 def exec_command(command):
+    command = command.decode('utf-8')
     for key in _modules.keys():
         if key in command:
             return _modules[key].exec_cmd(command.split(' '))
-    return 'неизвестная команда'
+    return u'неизвестная команда'
 
 if __name__ == "__main__":
     command_server()

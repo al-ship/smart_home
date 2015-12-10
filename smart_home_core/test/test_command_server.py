@@ -21,7 +21,7 @@ class TestCommandServer(unittest.TestCase):
         rospy.wait_for_service('command')
         command = rospy.ServiceProxy('command', Command)
         resp = command('unknown').response.decode('utf-8')
-        self.assertTrue(resp.startswith(u'неизвестная команда unknown'))
+        self.assertTrue(resp.startswith(u'неизвестная команда'))
 
     def test_ok_call(self):
         rospy.wait_for_service('command')
@@ -34,14 +34,9 @@ class TestCommandServer(unittest.TestCase):
         rospy.wait_for_service('command')
         command = rospy.ServiceProxy('command', Command)
 
-        self.call_time(command, u'скажи сколько время', result)
-        self.call_time(command, u'сколько время', result)
-        self.call_time(command, u'который час', reuslt)
-
-    def call_time(self, command, data, result):
-        resp = command(data).response.decode('utf-8')
-        self.assertTrue(resp.startswith(result), data + ': ' + resp)
-
+        self.assertTrue(command(u'скажи сколько время').response.decode('utf-8').startswith(result))
+        self.assertTrue(command(u'сколько время').response.decode('utf-8').startswith(result))
+        self.assertTrue(command(u'который час').response.decode('utf-8').startswith(result))
 
 if __name__ == '__main__':
     rostest.rosrun(PKG, NAME, TestCommandServer, sys.argv)

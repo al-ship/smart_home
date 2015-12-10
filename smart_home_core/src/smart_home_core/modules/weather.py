@@ -10,7 +10,7 @@ import sys
 
 class Weather(basemodule.basemodule):
 
-    names = ['погоду']
+    names = ['weather', u'погоду']
 
     def exec_cmd(self, params):
         #args = shlex.split('wget -q -O - "http://informer.gismeteo.ru/rss/28440.xml"')
@@ -19,8 +19,8 @@ class Weather(basemodule.basemodule):
         if not err and len(out) > 20:
             result = ''
             root = ET.fromstring(out)
-            txt = 'погода в екатеринбурге '
-            if 'tomorrow' in params or 'завтра':
+            txt = u'погода в екатеринбурге '
+            if 'tomorrow' in params or 'завтра' in params:
                 txt = txt + 'на завтра. ' + root.find("./channel/item[last()-1]/description").text.encode('utf-8')
             else:
                 txt = txt + '.' + root.find("./channel/item/description").text.encode('utf-8')
